@@ -6,29 +6,21 @@ export default class GifListContainer extends Component {
         super(props)
 
         this.state = { 
-            gif: [],
-            URL: `http://api.giphy.com/v1/gifs/search?q=${this.props.query}&api_key=s8TKkOyA397yIY3UW90EgC4xUYo3ky1n&rating=g`
+            gifs: []
         }
     }
 
-  componentDidMount() {
-        fetch(`${this.state.URL}`)
+  componentDidUpdate() {
+        fetch(`http://api.giphy.com/v1/gifs/search?q=${this.props.query}&api_key=s8TKkOyA397yIY3UW90EgC4xUYo3ky1n&rating=g`)
         .then(response => response.json())
-        .then(gifs => {
-            this.setState({gif: gifs})
+        .then(data => {
+            this.setState({gifs: data.data})
         })  
   }
 
-  loadGifs = () => {
-    <GifList gifs={this.state.gif} />
+  render() {
+      console.log(this.state.gifs)
+        return (<div className="col-xs-6"><GifList gifs={this.state.gifs} /></div>)
   }
 
-  render() {
-      console.log(this.state.gif)
-    //if(this.state.gifs.length > 0 ) {
-        return (<div className="col-xs-6">{this.loadGifs}</div>)
-    //} else {
-       // return null
-    //}
-  } //gifs={this.state.gifs}
 }
